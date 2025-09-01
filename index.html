@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maheshwar - Digital Portfolio</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Basic styling for portfolio */
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; }
+    nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 2rem; background: #111; color: #fff; }
+    nav ul { list-style: none; display: flex; gap: 1rem; margin: 0; }
+    nav ul li a { color: #fff; text-decoration: none; }
+    .home-container { text-align: center; padding: 4rem 2rem; }
+    .profile-photo { width: 180px; height: 180px; border-radius: 50%; border: 4px solid #facc15; object-fit: cover; }
+    input[type="file"] { margin-top: 1rem; }
+    h1 span { color: #facc15; }
+    .typing { font-size: 1.2rem; color: #333; margin-top: 0.5rem; min-height: 1.5rem; }
+    section { padding: 3rem 2rem; background: #fff; margin: 1rem auto; max-width: 900px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .skills { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .skill { background: #111; color: #facc15; padding: 0.5rem 1rem; border-radius: 6px; font-family: monospace; font-weight: bold; cursor: default; }
+    .certificates { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .certificate { background: #facc15; color: #111; padding: 0.5rem 1rem; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+    .certificate:hover { transform: scale(1.05); }
+    /* Modal Styling */
+    .modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+    .modal-content { background: #fff; padding: 2rem; border-radius: 12px; position: relative; max-width: 400px; text-align: center; }
+    .close { position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <nav>
+    <h2>Maheshwar</h2>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#certificates">Certificates</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+  
+  <!-- HOME -->
+  <section id="home">
+    <div class="home-container">
+      <!-- Custom Profile photo -->
+      <img id="profile-photo"
+           src="https://yourcustomphoto.com/photo.jpg"
+           alt="Maheshwar" class="profile-photo">
+
+      <!-- Upload Button -->
+      <input type="file" id="upload-photo" accept="image/*">
+
+      <div>
+        <h1>Hi, I'm <span>Maheshwar</span></h1>
+        <p class="typing" id="typing"></p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- ABOUT -->
+  <section id="about">
+    <h2>About Me</h2>
+    <p>I am a BCA 2nd year student at Sri Aravindar Arts and Science College (Annamalai University). 
+       Passionate about technology, web development, and sports like Karate.</p>
+  </section>
+  
+  <!-- SKILLS -->
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill">&lt;Python/&gt;</div>
+      <div class="skill">&lt;JavaScript/&gt;</div>
+      <div class="skill">&lt;React/&gt;</div>
+    </div>
+  </section>
+  
+  <!-- CERTIFICATES -->
+  <section id="certificates">
+    <h2>Certificates</h2>
+    <div class="certificates">
+      <div class="certificate" onclick="openModal('Python Certificate')">Python Basics</div>
+      <div class="certificate" onclick="openModal('Web Development Certificate')">Web Development</div>
+      <div class="certificate" onclick="openModal('Karate Achievement')">Karate</div>
+    </div>
+  </section>
+  
+  <!-- Modal -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3 id="modal-title"></h3>
+      <p id="modal-description">Details about the certificate will appear here.</p>
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    // Modal functions
+    function openModal(title) {
+      document.getElementById('modal-title').innerText = title;
+      document.getElementById('modal').style.display = 'flex';
+    }
+    function closeModal() { document.getElementById('modal').style.display = 'none'; }
+    window.onclick = function(event) {
+      const modal = document.getElementById('modal');
+      if(event.target == modal) modal.style.display = 'none';
+    }
+
+    // Typing effect
+    const typingElement = document.getElementById('typing');
+    const text = ["Web Developer", "Python Enthusiast", "Karate Practitioner"];
+    let index = 0, charIndex = 0;
+
+    function type() {
+      if(charIndex < text[index].length) {
+        typingElement.innerHTML += text[index].charAt(charIndex++);
+        setTimeout(type, 150);
+      } else { setTimeout(erase, 1000); }
+    }
+    function erase() {
+      if(charIndex > 0) {
+        typingElement.innerHTML = text[index].substring(0, charIndex--);
+        setTimeout(erase, 100);
+      } else {
+        index = (index + 1) % text.length;
+        setTimeout(type, 500);
+      }
+    }
+    document.addEventListener("DOMContentLoaded", () => { type(); });
+
+    // Profile photo upload
+    const uploadPhoto = document.getElementById('upload-photo');
+    const profilePhoto = document.getElementById('profile-photo');
+    uploadPhoto.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if(file) profilePhoto.src = URL.createObjectURL(file);
+    });
+  </script>
+</body>
+</html>
